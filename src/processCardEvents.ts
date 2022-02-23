@@ -20,8 +20,19 @@ type CardTransactionMapping = {
  * @returns CardTransactionMapping Valid transactions grouped by cardId
  */
 export const processCardEvents = (cardEvents: CardEvent[]): CardTransactionMapping => {
-
-  // logic
-
-  return {} as CardTransactionMapping
+  let obj: any = {}
+  for(let i=0;i<cardEvents.length-1;i++){
+    for(let j=i+1;j<cardEvents.length;j++){
+      if((cardEvents[i].type==="RESERVATION") && (cardEvents[i].cardId===cardEvents[j].cardId) && (cardEvents[j].type=="CONFIRMATION"||cardEvents[j].type=="CANCELLATION")){
+                {
+                  if(!(cardEvents[i].cardId in obj)){
+                  obj[cardEvents[i].cardId]=[cardEvents[i],cardEvents[j]]
+                  }
+                }
+              }
+    }
+ //Note:Try to implement using js. if not working properly, please go through logic. Thanks
+  }
+   // return obj; 
+  return obj as CardTransactionMapping
 }
